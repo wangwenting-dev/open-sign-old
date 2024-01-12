@@ -192,7 +192,7 @@ public class OpenSignController {
                 personalPositionList = calculatePositionService.getAllPositionByKeyWords(signFileBytes,request.getPersonalKeyword(),personalSealWidth,personalSealHeight);
             }
             if((personalPositionList == null || personalPositionList.size() == 0 ) &&
-                    (personalPositionList == null || personalPositionList.size() == 0)){
+                    (entPositionList == null || entPositionList.size() == 0)){
                 return Result.error("签署失败！签署关键字在文件中不存在，请准确设置关键字后再签署",null);
             }
         }
@@ -201,13 +201,13 @@ public class OpenSignController {
         byte[] operationByte = signFileBytes ;
         try {
             //所有企业位置签署
-            if(entPositionList.size() > 0){
+            if(entPositionList != null && entPositionList.size() > 0){
                 for(RealPositionProperty realPositionProperty : entPositionList){
                     operationByte = signService.signingContract(operationByte, entSealBytes, entCert, realPositionProperty);
                 }
             }
             //所有个人位置签署
-            if(personalPositionList.size() > 0){
+            if(personalPositionList != null && personalPositionList.size() > 0){
                 for(RealPositionProperty realPositionProperty : personalPositionList){
                     operationByte = signService.signingContract(operationByte, personalBytes, personalCert, realPositionProperty);
                 }
